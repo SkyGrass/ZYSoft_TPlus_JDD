@@ -1,0 +1,10 @@
+C:\SourceCode\ZYSoft_TPlus_Web\pubref\Chanjet.ZYSoft.SellOut.Interface.dll
+C:\SourceCode\ZYSoft_TPlus_Web\pubref\Chanjet.ZYSoft.SellOut.Interface.pdb
+C:\SourceCode\ZYSoft_TPlus_Web\Chanjet.ZYSoft.SellOut\Chanjet.ZYSoft.SellOut.Interface\obj\Debug\Chanjet.ZYSoft.SellOut.Interface.dll
+C:\SourceCode\ZYSoft_TPlus_Web\Chanjet.ZYSoft.SellOut\Chanjet.ZYSoft.SellOut.Interface\obj\Debug\Chanjet.ZYSoft.SellOut.Interface.pdb
+C:\SourceCode\ZYSoft_TPlus_Web\Chanjet.ZYSoft.SellOut\Chanjet.ZYSoft.SellOut.Interface\obj\Debug\Chanjet.ZYSoft.SellOut.Interface.csprojResolveAssemblyReference.cache
+C:\SourceCode\ZYSoft_TPlus_P20190718\pubref\Chanjet.ZYSoft.SellOut.Interface.dll
+C:\SourceCode\ZYSoft_TPlus_P20190718\pubref\Chanjet.ZYSoft.SellOut.Interface.pdb
+C:\SourceCode\ZYSoft_TPlus_P20190718\Chanjet.ZYSoft.SellOut\Chanjet.ZYSoft.SellOut.Interface\obj\Debug\Chanjet.ZYSoft.SellOut.Interface.csprojResolveAssemblyReference.cache
+C:\SourceCode\ZYSoft_TPlus_P20190718\Chanjet.ZYSoft.SellOut\Chanjet.ZYSoft.SellOut.Interface\obj\Debug\Chanjet.ZYSoft.SellOut.Interface.dll
+C:\SourceCode\ZYSoft_TPlus_P20190718\Chanjet.ZYSoft.SellOut\Chanjet.ZYSoft.SellOut.Interface\obj\Debug\Chanjet.ZYSoft.SellOut.Interface.pdb

@@ -1,0 +1,5 @@
+C:\SourceCode\ZYSoft_TPlus_CTL\pubref\Chanjet.ZYSoft.CTL.Service.dll
+C:\SourceCode\ZYSoft_TPlus_CTL\pubref\Chanjet.ZYSoft.CTL.Service.pdb
+C:\SourceCode\ZYSoft_TPlus_CTL\Chanjet.ZYSoft.CTL\Chanjet.ZYSoft.CTL.Service\obj\Debug\Chanjet.ZYSoft.CLT.Service.csprojResolveAssemblyReference.cache
+C:\SourceCode\ZYSoft_TPlus_CTL\Chanjet.ZYSoft.CTL\Chanjet.ZYSoft.CTL.Service\obj\Debug\Chanjet.ZYSoft.CTL.Service.dll
+C:\SourceCode\ZYSoft_TPlus_CTL\Chanjet.ZYSoft.CTL\Chanjet.ZYSoft.CTL.Service\obj\Debug\Chanjet.ZYSoft.CTL.Service.pdb

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="x-cp20936" ?>
+<services domain="ZYSoft" desc="">
+  <service name="Chanjet.ZYSoft.P20190718.Interface.IP20190718"
+           className="Chanjet.ZYSoft.P20190718.Service.P20190718"
+           loadFrom="..\server\Chanjet.ZYSoft.P20190718.Service.dll"
+           desc="" mode="normal"></service>
+</services>

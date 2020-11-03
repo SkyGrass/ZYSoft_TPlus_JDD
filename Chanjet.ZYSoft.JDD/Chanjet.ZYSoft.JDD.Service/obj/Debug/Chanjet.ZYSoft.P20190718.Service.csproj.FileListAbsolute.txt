@@ -1,0 +1,5 @@
+C:\SourceCode\ZYSoft_TPlus_P20190718\Chanjet.ZYSoft.SellOut\Chanjet.ZYSoft.SellOut.Service\obj\Debug\Chanjet.ZYSoft.P20190718.Service.csprojResolveAssemblyReference.cache
+C:\SourceCode\ZYSoft_TPlus_P20190718\pubref\Chanjet.ZYSoft.P20190718.Service.dll
+C:\SourceCode\ZYSoft_TPlus_P20190718\pubref\Chanjet.ZYSoft.P20190718.Service.pdb
+C:\SourceCode\ZYSoft_TPlus_P20190718\Chanjet.ZYSoft.SellOut\Chanjet.ZYSoft.SellOut.Service\obj\Debug\Chanjet.ZYSoft.P20190718.Service.dll
+C:\SourceCode\ZYSoft_TPlus_P20190718\Chanjet.ZYSoft.SellOut\Chanjet.ZYSoft.SellOut.Service\obj\Debug\Chanjet.ZYSoft.P20190718.Service.pdb

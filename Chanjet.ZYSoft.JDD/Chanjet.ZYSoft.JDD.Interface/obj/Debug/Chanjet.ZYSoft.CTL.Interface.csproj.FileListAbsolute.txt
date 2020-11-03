@@ -1,0 +1,4 @@
+C:\SourceCode\ZYSoft_TPlus_CTL\pubref\Chanjet.ZYSoft.CTL.Interface.dll
+C:\SourceCode\ZYSoft_TPlus_CTL\pubref\Chanjet.ZYSoft.CTL.Interface.pdb
+C:\SourceCode\ZYSoft_TPlus_CTL\Chanjet.ZYSoft.CTL\Chanjet.ZYSoft.CTL.Interface\obj\Debug\Chanjet.ZYSoft.CTL.Interface.dll
+C:\SourceCode\ZYSoft_TPlus_CTL\Chanjet.ZYSoft.CTL\Chanjet.ZYSoft.CTL.Interface\obj\Debug\Chanjet.ZYSoft.CTL.Interface.pdb

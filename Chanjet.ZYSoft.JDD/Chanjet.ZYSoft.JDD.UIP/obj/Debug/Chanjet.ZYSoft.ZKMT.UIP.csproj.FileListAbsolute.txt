@@ -1,0 +1,8 @@
+C:\SourceCode\ZYSoft_TPlus_ZKMT\Chanjet.ZYSoft.CTL\Chanjet.ZYSoft.CTL.UIP\obj\Debug\Chanjet.ZYSoft.ZKMT.UIP.csprojResolveAssemblyReference.cache
+C:\SourceCode\ZYSoft_TPlus_ZKMT\Chanjet.ZYSoft.CTL\Chanjet.ZYSoft.CTL.UIP\obj\Debug\Chanjet.ZYSoft.CTL.UIP.dll
+C:\SourceCode\ZYSoft_TPlus_ZKMT\Chanjet.ZYSoft.CTL\Chanjet.ZYSoft.CTL.UIP\obj\Debug\Chanjet.ZYSoft.CTL.UIP.pdb
+C:\SourceCode\ZYSoft_TPlus_ZKMT\Chanjet.ZYSoft.ZKMT\Chanjet.ZYSoft.ZKMT.UIP\obj\Debug\Chanjet.ZYSoft.ZKMT.UIP.csprojResolveAssemblyReference.cache
+C:\SourceCode\ZYSoft_TPlus_ZKMT\pubref\Chanjet.ZYSoft.ZKMT.UIP.dll
+C:\SourceCode\ZYSoft_TPlus_ZKMT\pubref\Chanjet.ZYSoft.ZKMT.UIP.pdb
+C:\SourceCode\ZYSoft_TPlus_ZKMT\Chanjet.ZYSoft.ZKMT\Chanjet.ZYSoft.ZKMT.UIP\obj\Debug\Chanjet.ZYSoft.ZKMT.UIP.dll
+C:\SourceCode\ZYSoft_TPlus_ZKMT\Chanjet.ZYSoft.ZKMT\Chanjet.ZYSoft.ZKMT.UIP\obj\Debug\Chanjet.ZYSoft.ZKMT.UIP.pdb

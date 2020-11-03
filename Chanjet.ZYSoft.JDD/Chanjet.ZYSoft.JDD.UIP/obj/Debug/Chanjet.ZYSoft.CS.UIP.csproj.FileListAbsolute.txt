@@ -1,0 +1,5 @@
+C:\SourceCode\ZYSoft_TPlus_CS\pubref\Chanjet.ZYSoft.CS.UIP.dll
+C:\SourceCode\ZYSoft_TPlus_CS\pubref\Chanjet.ZYSoft.CS.UIP.pdb
+C:\SourceCode\ZYSoft_TPlus_CS\Chanjet.ZYSoft.CS\Chanjet.ZYSoft.CS.UIP\obj\Debug\Chanjet.ZYSoft.CS.UIP.csprojResolveAssemblyReference.cache
+C:\SourceCode\ZYSoft_TPlus_CS\Chanjet.ZYSoft.CS\Chanjet.ZYSoft.CS.UIP\obj\Debug\Chanjet.ZYSoft.CS.UIP.dll
+C:\SourceCode\ZYSoft_TPlus_CS\Chanjet.ZYSoft.CS\Chanjet.ZYSoft.CS.UIP\obj\Debug\Chanjet.ZYSoft.CS.UIP.pdb

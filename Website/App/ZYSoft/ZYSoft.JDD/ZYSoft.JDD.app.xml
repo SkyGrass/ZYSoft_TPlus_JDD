@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<App id="ZYSoft.JDD" name="MainPage" appType="Production">
+  <Web>
+    <Extension Point_id="Ufida.T.EAP.Web.Page.Load">
+      <View id="JDDMainPage.aspx"
+            path="App/ZYSoft/ZYSoft.JDD/JDDMainPage.aspx"
+            class="Chanjet.ZYSoft.JDD.UIP.JDDPage">
+      </View>
+    </Extension>
+  </Web>
+</App>
