@@ -561,34 +561,35 @@ public class UploadHandler : IHttpHandler
             debugWriter.Close();
         }
     }
-    public List<Structure> struList = new List<Structure>() {
-
-         new Structure() { Label = "单号",Column="FBillNo" },
-         new Structure() { Label = "支付用户",Column="FPayUser" },
-         new Structure() { Label = "酒类", Column="FInvName"},
-         new Structure() { Label = "商铺名", Column="FCustomer"},
-         new Structure() { Label = "设备号", Column="FDeviceNo"},
-         new Structure() { Label = "代理", Column="FAgent"},
-         new Structure() { Label = "所属代理", Column="FAgentCode"},
-         new Structure() { Label = "省市区", Column="FAddress"},
-         new Structure() { Label = "代理类型", Column="FAgentType"},
-         new Structure() { Label = "规格两", Column="FSpecification"},
-         new Structure() { Label = "优惠券", Column="FCoupon"},
-         new Structure() { Label = "实付金额", Column="FAmount"},
-         new Structure() { Label = "酒水销售", Column="FSellAmount"},
-         new Structure() { Label = "店员奖励", Column="FStaffReward"},
-         new Structure() { Label = "个人代理分成", Column="FPersonalAgent"},
-         new Structure() { Label = "区县合伙人分成", Column="FPartner"},
-         new Structure() { Label = "额外区县合伙人分成", Column="FAdditionalPartner"},
-         new Structure() { Label = "订单状态", Column="FOrderStatus"},
-         new Structure() { Label = "订单日期", Column="FOrderDate"},
-         new Structure() { Label = "备注", Column="FMemo"},
-         new Structure() { Label = "实际出酒ml", Column="FQuantity"}
+    public List<Structure> struList = new List<Structure>()
+    {
+        //new Structure() { Label = "单号",Column="FBillNo" },
+        //new Structure() { Label = "支付用户",Column="FPayUser" },
+        //new Structure() { Label = "酒类", Column="FInvName"},
+        //new Structure() { Label = "商铺名", Column="FCustomer"},
+        //new Structure() { Label = "设备号", Column="FDeviceNo"},
+        //new Structure() { Label = "代理", Column="FAgent"},
+        //new Structure() { Label = "所属代理", Column="FAgentCode"},
+        //new Structure() { Label = "省市区", Column="FAddress"},
+        //new Structure() { Label = "代理类型", Column="FAgentType"},
+        //new Structure() { Label = "规格两", Column="FSpecification"},
+        //new Structure() { Label = "优惠券", Column="FCoupon"},
+        //new Structure() { Label = "实付金额", Column="FAmount"},
+        //new Structure() { Label = "酒水销售", Column="FSellAmount"},
+        //new Structure() { Label = "店员奖励", Column="FStaffReward"},
+        //new Structure() { Label = "个人代理分成", Column="FPersonalAgent"},
+        //new Structure() { Label = "区县合伙人分成", Column="FPartner"},
+        //new Structure() { Label = "额外区县合伙人分成", Column="FAdditionalPartner"},
+        //new Structure() { Label = "订单状态", Column="FOrderStatus"},
+        //new Structure() { Label = "订单日期", Column="FOrderDate"},
+        //new Structure() { Label = "备注", Column="FMemo"},
+        //new Structure() { Label = "实际出酒ml", Column="FQuantity"}
     };
 
     public List<string> alllowExtend = new List<string>() { "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" };
     public void ProcessRequest(HttpContext context)
     {
+        struList = initConfig();
         ZYSoft.DB.Common.Configuration.ConnectionString = LoadXML("ConnectionString");
         context.Response.ContentType = "text/plain";
         if (context.Request.Form["SelectApi"] != null)
@@ -622,8 +623,12 @@ public class UploadHandler : IHttpHandler
                     methodName = LoadXML("Method");
                     result = SaveBill(JsonConvert.DeserializeObject<SaleDelivery>(formData), methodName);
                     break;
-                    break;
                 default:
+                    result = JsonConvert.SerializeObject(new
+                    {
+                        state = "error",
+                        msg = "接口服务,非法调用!",
+                    });
                     break;
             }
             context.Response.Write(result);
@@ -836,12 +841,32 @@ public class UploadHandler : IHttpHandler
                 break;
             }
         }
-
         return return_value;
     }
 
+    public List<Structure> initConfig()
+    {
+        List<Structure> list = new List<Structure>();
+        string filename = HttpContext.Current.Request.PhysicalApplicationPath + @"config.xml";
+        XmlDocument xmldoc = new XmlDocument();
+        xmldoc.Load(filename);
+        XmlNode node = xmldoc.SelectSingleNode("/columns");
+        foreach (XmlElement el in node)//读元素值 
+        {
+            if (list.FindIndex(f => f.Label.Equals(el.Attributes["key"].Value)) <= -1)
+            {
+                list.Add(new Structure()
+                {
+                    Label = el.Attributes["key"].Value,
+                    Column = el.Attributes["value"].Value
+                });
+            }
+        }
+        return list;
+    }
+
     public string doPost(string url, List<FormItemModel> formItems, CookieContainer cookieContainer = null, string refererUrl = null,
-   System.Text.Encoding encoding = null, int timeOut = 20000)
+    System.Text.Encoding encoding = null, int timeOut = 20000)
     {
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
         #region 初始化请求对象
