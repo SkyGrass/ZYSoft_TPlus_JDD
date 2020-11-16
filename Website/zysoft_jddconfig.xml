@@ -1,0 +1,23 @@
+﻿<?xml version="1.0"?>
+<columns>
+  <add key= "单号" value="FBillNo" hozAlign="center" headerSort="false" width="180"/>
+  <add key= "支付用户" value="FPayUser"  hozAlign="center" headerSort="false" width="150"/>
+  <add key= "酒类"  value="FInvName" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "商铺名"  value="FCustomer" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "订单日期"  value="FOrderDate" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "订单状态"  value="FOrderStatus" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "规格两"  value="FSpecification" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "优惠券"  value="FCoupon" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "实付金额"  value="FAmount" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "退款金额"  value="FBackAmount" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "商家分成"  value="FAmount1" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "业务员分成"  value="FAmount2" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "主管分成"  value="FAmount3" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "经理分成"  value="FAmount4" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "合伙人分成"  value="FAmount5" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "区县合伙人分成"  value="FAmount6" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "额外区县合伙人分成"  value="FAmount7" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "店员奖励(1元)"  value="FStaffReward1Yuan" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "店员奖励(按两)"  value="FStaffRewardLiang" hozAlign="center" headerSort="false" width="150"/>
+  <add key= "备注"  value="FMemo" hozAlign="center" headerSort="false" width="150"/>
+</columns>

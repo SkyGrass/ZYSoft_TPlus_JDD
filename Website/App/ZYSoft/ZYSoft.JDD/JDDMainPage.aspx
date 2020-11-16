@@ -149,6 +149,7 @@
     </div>
     <script src="./js/moment.js"></script>
     <script src="./js/tableconfig.js"></script>
+    <script src="./js/tableconfigdef.js"></script>
     <script src="./js/vue.js"></script>
     <script src="./js/element-ui-index.js"></script>
     <script src="./js/tabulator.js"></script>

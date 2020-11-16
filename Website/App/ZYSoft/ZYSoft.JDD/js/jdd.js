@@ -2,6 +2,7 @@
     el: "#app",
     data: function () {
         return {
+            gridConfig: [],
             persons: [],
             customers: [],
             customers_bark: [],
@@ -15,6 +16,7 @@
                 FUserName: loginName,
                 FDate: new Date(),
                 FCustomer: "",
+                FCustCode: "",
                 FMemo: ""
             }
         };
@@ -56,7 +58,7 @@
                     type: "POST",
                     url: "uploadhandler.ashx",
                     async: true,
-                    data: { SelectApi: "check", dataSource: JSON.stringify(that.tableData) },
+                    data: { SelectApi: "check", dataSource: JSON.stringify(temp) },
                     dataType: "json",
                     success: function (response) {
                         that.loading = false;
@@ -119,19 +121,25 @@
                 var temp = this.grid.getSelectedData().map(function (m) {
                     return {
                         FInvCode: m.FInvCode,
-                        FQuantity: m.FQuantity,
-                        FAmount: m.FAmount,
-                        FMemo: m.FBillNo
+                        FQuantity: m.FSpecification,
+                        FAmount: m.FAmount6 + Number(m.FStaffRewardLiang) / 2,
+                        FMemo: m.FBillNo,
+                        FCustCode: m.FCustCode
                     }
                 });
 
                 if (temp.length > 0) {
+                    that.form.FCustCode = temp[0]["FCustCode"];
                     that.loading = true;
                     $.ajax({
                         type: "POST",
-                        url: "zkmthandler.ashx",
+                        url: "uploadhandler.ashx",
                         async: true,
-                        data: { SelectApi: "save", formData: JSON.stringify(Object.assign({}, this.form, { Entry: temp })) },
+                        data: {
+                            SelectApi: "save", formData: JSON.stringify(Object.assign({}, this.form, {
+                                FDate: moment(this.form.FDate).format("YYYY-MM-DD")
+                            }, { Entry: temp }))
+                        },
                         dataType: "json",
                         success: function (result) {
                             that.loading = false;
@@ -184,6 +192,40 @@
             } else {
                 self.customers = self.customers_bark;
             }
+        },
+        initGrid() {
+            var that = this;
+            $.ajax({
+                type: "POST",
+                url: "uploadhandler.ashx",
+                async: true,
+                data: { SelectApi: "config" },
+                dataType: "json",
+                success: function (response) {
+                    that.loading = false;
+                    if (response.state == "success") {
+                        var configList = response.data;
+                        var t = tableconfdef.concat(configList.map(function (config) {
+                            var cof = tableconf.find(function (conf) {
+                                return conf.field == config.field
+                            });
+                            if (cof) {
+                                config = Object.assign({}, config, cof[0]);
+                            }
+                            return config;
+                        }));
+                    }
+                    that.gridConfig = t;
+                    that.loading = false;
+                },
+                error: function () {
+                    that.loading = false;
+                    return that.$message({
+                        message: '未能正确获取表格配置!',
+                        type: 'warning'
+                    });
+                }
+            });
         }
     },
     watch: {
@@ -192,20 +234,28 @@
                 this.grid.replaceData(newData);
             },
             deep: true
+        }, gridConfig: {
+            handler: function (newData) {
+                this.grid.setColumns(newData);
+                this.grid.redraw(true);
+            },
+            deep: true
         }
     },
     mounted() {
         var that = this;
+        that.initGrid();
         this.maxHeight = ($(window).height() - $("#header").height())
         window.onresize = function () {
             that.maxHeight = ($(window).height() - $("#header").height())
         }
         this.grid = new Tabulator("#grid", {
             height: this.maxHeight,
+            layout: "fitColumns",
             columnHeaderVertAlign: "bottom",
             selectable: 9999, //make rows selectable
             data: this.tableData, //set initial table data
-            columns: tableconf
+            columns: this.gridConfig
         })
     }
 });

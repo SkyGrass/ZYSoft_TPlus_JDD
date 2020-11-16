@@ -24,23 +24,22 @@ public class UploadHandler : IHttpHandler
         public string FInvName { get; set; }
         public string FCustomer { get; set; }
         public string FCustCode { get; set; }
-        public string FDeviceNo { get; set; }
-        public string FAgent { get; set; }
-        public string FAgentCode { get; set; }
-        public string FAddress { get; set; }
-        public string FAgentType { get; set; }
+        public string FOrderDate { get; set; }
+        public string FOrderStatus { get; set; }
         public string FSpecification { get; set; }
         public string FCoupon { get; set; }
         public string FAmount { get; set; }
-        public string FSellAmount { get; set; }
-        public string FStaffReward { get; set; }
-        public string FPersonalAgent { get; set; }
-        public string FPartner { get; set; }
-        public string FAdditionalPartner { get; set; }
-        public string FOrderStatus { get; set; }
-        public string FOrderDate { get; set; }
+        public string FBackAmount { get; set; }
+        public string FAmount1 { get; set; }
+        public string FAmount2 { get; set; }
+        public string FAmount3 { get; set; }
+        public string FAmount4 { get; set; }
+        public string FAmount5 { get; set; }
+        public string FAmount6 { get; set; }
+        public string FAmount7 { get; set; }
+        public string FStaffReward1Yuan { get; set; }
+        public string FStaffRewardLiang { get; set; }
         public string FMemo { get; set; }
-        public string FQuantity { get; set; }
         public bool FIsValid { get; set; }
         public int FErrorCount { get; set; }
         public string FErrorMsg { get; set; }
@@ -57,7 +56,7 @@ public class UploadHandler : IHttpHandler
     {
         public string code { get; set; }
         public string name { get; set; }
-        public string specification { get; set; }
+        public string priuserdefnvc1 { get; set; }
 
     }
 
@@ -178,6 +177,15 @@ public class UploadHandler : IHttpHandler
         public string Result { get; set; }
         public string Message { get; set; }
         public object Data { get; set; }
+    }
+
+    public class GridConfig
+    {
+        public string title { get; set; }
+        public string field { get; set; }
+        public string hozAlign { get; set; }
+        public bool headerSort { get; set; }
+        public int width { get; set; }
     }
 
 
@@ -623,6 +631,14 @@ public class UploadHandler : IHttpHandler
                     methodName = LoadXML("Method");
                     result = SaveBill(JsonConvert.DeserializeObject<SaleDelivery>(formData), methodName);
                     break;
+                case "config":
+                    List<GridConfig> gridConfig = initGrid();
+                    result = JsonConvert.SerializeObject(new
+                    {
+                        state = gridConfig.Count > 0 ? "success" : "error",
+                        data = gridConfig,
+                    });
+                    break;
                 default:
                     result = JsonConvert.SerializeObject(new
                     {
@@ -634,6 +650,31 @@ public class UploadHandler : IHttpHandler
             context.Response.Write(result);
         }
     }
+
+    public List<GridConfig> initGrid()
+    {
+        List<GridConfig> list = new List<GridConfig>();
+        string filename = HttpContext.Current.Request.PhysicalApplicationPath + @"zysoft_jddconfig.xml";
+        XmlDocument xmldoc = new XmlDocument();
+        xmldoc.Load(filename);
+        XmlNode node = xmldoc.SelectSingleNode("/columns");
+        foreach (XmlElement el in node)//读元素值 
+        {
+            if (list.FindIndex(f => f.field.Equals(el.Attributes["value"].Value)) <= -1)
+            {
+                list.Add(new GridConfig()
+                {
+                    title = el.Attributes["key"].Value,
+                    field = el.Attributes["value"].Value,
+                    hozAlign = el.Attributes["hozAlign"].Value,
+                    headerSort = SafeBool(el.Attributes["headerSort"].Value, false),
+                    width = SafeInt(el.Attributes["width"].Value, 100)
+                });
+            }
+        }
+        return list;
+    }
+
 
     public List<Record> handleFile(HttpRequest request, ref string filename)
     {
@@ -672,6 +713,16 @@ public class UploadHandler : IHttpHandler
                     }
                 }
             }
+            list = list.FindAll(f =>
+            {
+                return f.FOrderStatus.Contains("交易成功") ||
+f.FOrderStatus.Contains("差额退款");
+            });
+            list.ForEach(f =>
+            {
+                f.FAmount6 = SafeDecimal(f.FAmount6, 0).ToString();
+                f.FStaffRewardLiang = SafeDecimal(f.FStaffRewardLiang, 0).ToString();
+            });
             return list;
         }
         catch (System.Exception e)
@@ -751,74 +802,99 @@ public class UploadHandler : IHttpHandler
         {
             list.ForEach(f =>
             {
-                f.FErrorCount = 1;
+                f.FErrorCount = 0;
                 f.FErrorMsg = "尚未检查!";
-                f.FIsValid = true;
+                f.FIsValid = false;
             });
 
             #region 检查存货档案 
-            string sql = string.Format(@"select code,name,specification from AA_Inventory");
+            string sql = string.Format(@"select isnull(priuserdefnvc1,'')priuserdefnvc1,code,name from aa_inventory");
             DataTable dtInv = ZYSoft.DB.BLL.Common.ExecuteDataTable(sql);
-            List<Inv> listInv = ToList<Inv>(dtInv);
-            list.ForEach(f =>
+            if (dtInv != null && dtInv.Rows.Count > 0)
             {
-                Inv item = listInv.Find(inv => inv.name.ToLower().Equals(f.FInvName.ToLower()) &&
-                 inv.specification.ToLower().Equals(f.FSpecification.ToLower()));
-                if (item == null)
+                List<Inv> listInv = ToList<Inv>(dtInv);
+                list.ForEach(f =>
                 {
-                    f.FErrorCount += 1;
-                    f.FErrorMsg += "没有这个存货档案!\r\n";
-                }
-                else
+                    Inv item = listInv.Find(inv => inv.priuserdefnvc1.ToLower().Equals(f.FInvName.ToLower()));
+                    if (item == null)
+                    {
+                        f.FErrorCount += 1;
+                        f.FErrorMsg += "没有这个存货档案!\r\n";
+                    }
+                    else
+                    {
+                        f.FInvCode = item.code;
+                    }
+                });
+            }
+            else
+            {
+                list.ForEach(f =>
                 {
-                    f.FInvCode = item.code;
-                }
-            });
+                    f.FErrorCount = 1;
+                    f.FErrorMsg = "没有这个存货档案!\r\n";
+                });
+            }
             #endregion
 
             #region 检查客户
             sql = string.Format(@"select code,name FROM AA_Partner");
             DataTable dtProject = ZYSoft.DB.BLL.Common.ExecuteDataTable(sql);
-            List<Customer> listProject = ToList<Customer>(dtProject);
-            list.ForEach(f =>
+            if (dtProject != null && dtProject.Rows.Count > 0)
             {
-                Customer item = listProject.Find(customer => customer.name.Equals(f.FCustomer));
-                if (item == null)
+                List<Customer> listProject = ToList<Customer>(dtProject);
+                list.ForEach(f =>
+                {
+                    Customer item = listProject.Find(customer => customer.name.Equals(f.FCustomer));
+                    if (item == null)
+                    {
+                        f.FErrorCount += 1;
+                        f.FErrorMsg += "没有这个客户编码!\r\n";
+                    }
+                    else
+                    {
+                        f.FCustCode = item.code;
+                    }
+                });
+            }
+            else
+            {
+                list.ForEach(f =>
                 {
                     f.FErrorCount += 1;
                     f.FErrorMsg += "没有这个客户编码!\r\n";
-                }
-                else
-                {
-                    f.FCustCode = item.code;
-                }
-            });
+                });
+            }
             #endregion
 
             #region 检查单号是否导入过
             sql = string.Format(@"select isnull(detailmemo,'')detailmemo from SA_SaleDelivery_b");
             DataTable dtMemo = ZYSoft.DB.BLL.Common.ExecuteDataTable(sql);
-            List<BillRecord> listMemo = ToList<BillRecord>(dtMemo);
-            list.ForEach(f =>
+            if (dtMemo != null && dtMemo.Rows.Count > 0)
             {
-                BillRecord item = listMemo.Find(memo => memo.detailmemo == f.FBillNo);
-                if (item != null)
+                List<BillRecord> listMemo = ToList<BillRecord>(dtMemo);
+                list.ForEach(f =>
                 {
-                    f.FErrorCount += 1;
-                    f.FErrorMsg += "当前订单已存在!\r\n";
-                }
-            });
+                    BillRecord item = listMemo.Find(memo => memo.detailmemo.Equals(f.FBillNo));
+                    if (item != null)
+                    {
+                        f.FErrorCount += 1;
+                        f.FErrorMsg += "当前订单已存在!\r\n";
+                    }
+                });
+            }
             #endregion
-
+            addLogErr("ReadFile", JsonConvert.SerializeObject(list));
             list.ForEach(f =>
             {
-                f.FIsValid = f.FErrorCount <= 1;
-                f.FErrorMsg = f.FErrorCount <= 1 ? "检查通过!" : f.FErrorMsg;
+                f.FIsValid = f.FErrorCount <= 0;
+                f.FErrorMsg = f.FErrorCount <= 0 ? "检查通过!" : f.FErrorMsg;
             });
             return list;
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
+            addLogErr("ReadFile", e.Message.ToString());
             return list;
         }
     }
@@ -847,7 +923,7 @@ public class UploadHandler : IHttpHandler
     public List<Structure> initConfig()
     {
         List<Structure> list = new List<Structure>();
-        string filename = HttpContext.Current.Request.PhysicalApplicationPath + @"config.xml";
+        string filename = HttpContext.Current.Request.PhysicalApplicationPath + @"zysoft_jddconfig.xml";
         XmlDocument xmldoc = new XmlDocument();
         xmldoc.Load(filename);
         XmlNode node = xmldoc.SelectSingleNode("/columns");
