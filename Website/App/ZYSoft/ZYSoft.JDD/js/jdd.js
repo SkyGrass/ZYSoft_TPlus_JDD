@@ -2,6 +2,7 @@
     el: "#app",
     data: function () {
         return {
+            forbidden: true,
             gridConfig: [],
             persons: [],
             customers: [],
@@ -23,6 +24,7 @@
     },
     methods: {
         uploadSuccess(response, file, fileList) {
+            this.forbidden = true;
             if (response.state == "success") {
                 this.tableData = response.data;
                 this.tableData_bark = response.data;
@@ -44,10 +46,12 @@
         },
         checkTable() {
             const that = this;
+            that.forbidden = true;
             if (this.tableData.length <= 0) return;
-
+            this.loading = true;
             var temp = this.grid.getSelectedData()
             if (temp.length <= 0) {
+                this.loading = false;
                 return that.$message({
                     message: '请先勾选行!',
                     type: 'warning'
@@ -65,6 +69,7 @@
                         if (response.state == "success") {
                             that.tableData = response.data;
                         }
+                        that.forbidden = !response.data.every(function (f) { return f.FIsValid })
                         that.loading = false;
                         return that.$message({
                             message: response.data.length > 0 ? '检查完成!' : '未能检查数据!',
@@ -122,47 +127,59 @@
                     return {
                         FInvCode: m.FInvCode,
                         FQuantity: m.FSpecification,
-                        FAmount: m.FAmount6 + Number(m.FStaffRewardLiang) / 2,
+                        FAmount: Number(m.FAmount6) + Number(m.FStaffRewardLiang) / 2,
                         FMemo: m.FBillNo,
                         FCustCode: m.FCustCode
                     }
                 });
 
                 if (temp.length > 0) {
-                    that.form.FCustCode = temp[0]["FCustCode"];
-                    that.loading = true;
-                    $.ajax({
-                        type: "POST",
-                        url: "uploadhandler.ashx",
-                        async: true,
-                        data: {
-                            SelectApi: "save", formData: JSON.stringify(Object.assign({}, this.form, {
-                                FDate: moment(this.form.FDate).format("YYYY-MM-DD")
-                            }, { Entry: temp }))
-                        },
-                        dataType: "json",
-                        success: function (result) {
-                            that.loading = false;
-                            if (result.status == "success") {
-                                return that.$message({
-                                    message: result.msg,
-                                    type: 'success'
-                                });
-                            } else {
-                                return that.$message({
-                                    message: result.msg,
+                    that.$confirm('此操作将提交数据, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        that.form.FCustCode = temp[0]["FCustCode"];
+                        that.loading = true;
+                        $.ajax({
+                            type: "POST",
+                            url: "uploadhandler.ashx",
+                            async: true,
+                            data: {
+                                SelectApi: "save", formData: JSON.stringify(Object.assign({}, that.form, {
+                                    FDate: moment(that.form.FDate).format("YYYY-MM-DD")
+                                }, { Entry: temp }))
+                            },
+                            dataType: "json",
+                            success: function (result) {
+                                that.loading = false;
+                                if (result.status == "success") {
+                                    that.forbidden = true;
+                                    return that.$message({
+                                        message: result.msg,
+                                        type: 'success'
+                                    });
+                                } else {
+                                    return that.$message({
+                                        message: result.msg,
+                                        type: 'warning'
+                                    });
+                                }
+                            },
+                            error: function () {
+                                that.loading = false;
+                                that.$message({
+                                    message: '保存单据失败,请检查!',
                                     type: 'warning'
                                 });
                             }
-                        },
-                        error: function () {
-                            that.loading = false;
-                            that.$message({
-                                message: '保存单据失败,请检查!',
-                                type: 'warning'
-                            });
-                        }
-                    })
+                        })
+                    }).catch(function () {
+                        that.$message({
+                            type: 'info',
+                            message: '已取消提交数据'
+                        });
+                    });
                 } else {
                     this.$message({
                         message: '尚未勾选行记录,请核实!',

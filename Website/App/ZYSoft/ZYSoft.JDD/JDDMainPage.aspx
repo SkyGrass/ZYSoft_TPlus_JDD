@@ -132,8 +132,8 @@
                                       :before-upload=uploadBefore
                                       action="./uploadhandler.ashx">
                                       <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
-                                      <el-button @click="checkTable" size="mini" type="warning" icon="el-icon-document-checked">检查表格</el-button>
-                                      <el-button @click="saveTable" size="mini" type="success" icon="el-icon-check" :loading ="loading">保存记录</el-button>
+                                      <el-button @click="checkTable" size="mini" type="warning" icon="el-icon-document-checked" :loading ="loading"  >检查表格</el-button>
+                                      <el-button @click="saveTable" size="mini" type="success" icon="el-icon-check" :loading ="loading" :disabled="forbidden">保存记录</el-button>
                                     </el-upload>
                                 </el-col> 
                              </el-row>
